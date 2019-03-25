@@ -1,0 +1,9 @@
+1) When we are parsing the request headers, we treat them as ASCII characters. However, if Unicode stream is provided it would be passed into the string libraries, creating potential security hazard (RFC 7230, 3)
+2) There is the potential problem of attackers hogging the resources or sending many invalid requests.
+3) In request headers, if there is a whitespace between the header field and the colon (e.g Host :), that can be an attempt to trick the proxy as processing it as a new request, or ignoring it
+4) Content-Length in a request is especially prone to integer overflow
+5) Host header field is a frequent target for malware to poison the cache, or redirect it to an unwanted server. This could affect our code (RFC 7230, 5,4)
+6) For caching, while no-store might seem like a safer method, that does not stop eavesdropping from happening. Although it does not get stored in the cache, that does not stop the eavesdropping from happening(either between the client and the proxy, or the proxy and the server)
+7) If bad request, do not try to autocorrect it(might be intentional mistake to bypass security filters)
+8)One of the things that our server is most permeable to, is cache poisoning. As it is a shared cache, malicious user can plant malicious payload, and make other users reach that.
+9) Strong exception guarantee is made, as most of the code is executed in try blocks. No matter what happens, the server will keep on operating. 

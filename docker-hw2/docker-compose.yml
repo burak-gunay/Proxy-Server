@@ -1,0 +1,10 @@
+version: '2'
+
+services:
+  proxy:
+      build: ./boost
+      command: bash -c "/code/main"
+      volumes:
+            - ./log:/var/log/erss/
+      ports:
+            - "12345:12345"
